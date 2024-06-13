@@ -9,7 +9,7 @@ f1_dict = {
     'spb.tortomaster.ru': 'span',
     'lenta.com': 'p'
 }
-f2_dict = {
+f2_dict = { # locators
     'www.vprok.ru':'Price_price__QzA8L Price_size_XL__MHvC1 Price_role_regular__X6X4D',
     'agrobar.org':'js-product-price js-store-prod-price-val t-store__prod-popup__price-value',
     'spb.vkusvill.ru': 'js-datalayer-catalog-list-price hidden',
@@ -43,6 +43,7 @@ def get_price(url: str) -> str:
 
         try:
             if (url.split('/')[2]=='www.vprok.ru') or (url.split('/')[2]=='agrobar.org') or (url.split('/')[2]=='spb.vkusvill.ru'):
+                # if url.split(lalala) in {www.vprok, www.yok}
                 price = bs.find(f1_dict[url.split('/')[2]], f2_dict[url.split('/')[2]]).text
                 return float(price.replace(',','.').split(' ',-1)[0])
             

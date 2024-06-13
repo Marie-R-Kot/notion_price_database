@@ -1,7 +1,5 @@
 from notion_client import Client
 
-TOKEN = "secret_qpAS6oTspiFNSXoTVvWNXhtXYNhwmP949mDNOBN4T1x"
-notion = Client(auth=TOKEN)
 
 def get_database_tag_ids(database_id: str) -> dict:
     data = notion.databases.retrieve(database_id)["properties"]
@@ -88,3 +86,14 @@ def change_price_in_page(page_id: str, new_value: float):
         name = get_value_by_page_and_tag_ids(page_id, 'title', True)
         print(f"{name} price hasn't found")
         
+
+# class NotionClient:
+    
+#     def __init__(self, token: str) -> None:
+#         self.token = token
+#         self.client = Client(auth=self.token)
+
+#     def my_func():
+#         pass
+
+# notion = NotionClient()

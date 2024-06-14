@@ -5,9 +5,9 @@ import os
 
 os.system("cls" if os.name == "nt" else "clear")  # clear terminal window
 
-TOKEN = "secret_qpAS6oTspiFNSXoTVvWNXhtXYNhwmP949mDNOBN4T1x"
-database_url = 'https://www.notion.so/kot-bloknot/9ad4a802ee6b49bf9dfb7bf5a74444a5?v=f544e39eebed4ca1b92b17735c1559b7' #Выпекот
-#database_url = 'https://www.notion.so/kot-bloknot/55e7ebfbf6514753b9b588370a1e12f4?v=774ece5e961740cdab81e97acc645779'
+TOKEN = ""
+database_url = '' 
+prop_to_change = "Цена"
 
 notion = NotionClient(TOKEN, database_url)
 
@@ -21,4 +21,6 @@ Base['page_id'] = pd.DataFrame(data=pages_id.values())
 Base['price'] = Base['url'].apply(get_price)
 
 for count in range(len(Base)):
-    notion.change_price_in_page(Base['page_id'].iloc[count],Base['price'].iloc[count])
+    page_id = Base['page_id'].iloc[count]
+    price = Base['price'].iloc[count]
+    notion.change_prop_in_page(page_id, price, props_id[prop_to_change])

@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+from time import sleep
 
+waits = 3
 
 f1_dict = {
     'www.vprok.ru':'span',
@@ -14,19 +16,19 @@ f2_dict = { # locators
     'agrobar.org':'js-product-price js-store-prod-price-val t-store__prod-popup__price-value',
     'spb.vkusvill.ru': 'js-datalayer-catalog-list-price hidden',
     'spb.tortomaster.ru': 'price',
-    'lenta.com': 'Price_mainPrice__T9yBp'
-}
+    'lenta.com': 'Price_secondaryPrice__ppVFT'
+    }
 
 
 def get_price(url: str) -> str:
 
     def _get_html(url: str) -> str:
-        
+
         if (url.split('/')[2]=='lenta.com'):
             headers = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:120.0) Gecko/20100101 Firefox/120.0",
                 "Accept": "text/html",
-                "Cookie": "ASP.NET_SessionId=0ut5krvg5t5dyv3ys0of3j0g; GACustomerId=c35df804b0284c1b89ca1c5589a2da57; qrator_jsid=1718042092.210.gPbIipb12SleL84f-mhslj6k6g0mc7kj1jvipnet1od4ljsm5; .ASPXANONYMOUS=vM4yXuC1SJS7Dlk-j-oGbufuQE88A-mCtK8vCkxB4ChJypxqV9YpGaxQK7h8dXMFBAhftarNA3QhY72TRpisyO_q5ejG0wUKBGMqUwauMz3l-SbUFjQvjB55GiW09d-0t5Qj1A2; CustomerId=5b27bcf2434c48f79cde91acc2a87463; LNCatalogRoot=true; LNProduct=true; LNStart=true; LNCatalogNodes=true; ShouldSetDeliveryOptions=True; IsNextSiteAvailable=True; LastUpdate=2024-06-10; ValidationToken=9d60dc53f2f2e749e73e5e65c6e7de40; KFP_DID=2d15ae84-85ea-5f34-c783-09f12503531e; ReviewedSkus=293862,311362,383728,094429,011458,270863,011225,525353,375708,614931,455088; cookiesession1=678B286F1C392B112C8B70E143C36EDC; UnAuthorizedNavigationsCount=3; DontShowCookieNotification=true; oxxfgh=L!0a0e1252-b66b-42d4-f233-4817837ba918#1#1800000#5000#1800000#44965; AuthorizationMotivationHidden=true; .AspNet.ApplicationCookie=5CFpV0bMobGlS6tL9k7hmDkh7qdYhNf7khhkG5RQfSsuxIlci87vwPRj2P3R4gs3srqAJ36xOLf7_aW3KTJRgQl36KcSwiUWtccfoZsbdkyQOAYWigA0xX6BAtSn1J1A0iSVCJbozNOM-mbrTHO4fST9LbqS1rrIA8GA8hUMNDZ0Ei2OyZDD7lQD1mvrq5-8a8IPXIMKwtroII87QsDkxbgiL7673Hy9lGign3laSuck9TxLiP_3lrsThcaYIOHdJji0cYiV36x11NHgj-dxMzaBF9AUnRos_T30YiDtI10h-S1y1oCdGw5t-QHexNaPtuKXe7ojwnSneLBGkRmvArGLe2Xa3I3aVGW4UNvYHIVhg3tqhn4EMGh1N31fEOClUAsruoF_e9S3rUSoEh23CszPVfaWnHgUtJMcEx94xSYp8zT5w-p5F6tv7JlxNtQ_NThZ5jTHpbRFLl7v98W9JNIwGSYA7lbvqRmFzp-IBQq9oNUWnglSV1dvzualiQQ8e4Yz945sn1PdzC5AgUUj-UADyxJWib5yra90cOYUH1uOej25d89ycWNXL97QL9Dp6dc2j1mWot0p36Iru2tVy8IAmkWJzZAEtizPrZPMrujRnnvVrmv5-pS3hQOkwwL1bFsy9YmQddUoMez_Y2JRHiJeJ7jJIfsBhgfdHYm6IM18Iwz0LVVdqoozqHsmV8uh9kV6XmlPVpaIdX_AEgQUkLSS8iNC9Rad6zW1WZWrBdF1e7Qxp2ePcNopyqTKjBD7Ley6uCMeyXy-htCvKZWbUsm_dyY6DLKHYSwYv2Um5scpsYSH"
+                "Cookie": 'ASP.NET_SessionId=0ut5krvg5t5dyv3ys0of3j0g; GACustomerId=c35df804b0284c1b89ca1c5589a2da57; .ASPXANONYMOUS=vM4yXuC1SJS7Dlk-j-oGbufuQE88A-mCtK8vCkxB4ChJypxqV9YpGaxQK7h8dXMFBAhftarNA3QhY72TRpisyO_q5ejG0wUKBGMqUwauMz3l-SbUFjQvjB55GiW09d-0t5Qj1A2; CustomerId=5b27bcf2434c48f79cde91acc2a87463; LNCatalogRoot=true; LNProduct=true; LNStart=true; LNCatalogNodes=true; IsNextSiteAvailable=True; KFP_DID=2d15ae84-85ea-5f34-c783-09f12503531e; UnAuthorizedNavigationsCount=3; AuthorizationMotivationHidden=true; oxxfgh=17b09ea5-9676-4a4b-a712-ed262a3bb91a#0#5184000000#5000#1800000#44965; CityCookie=spb; CitySubDomainCookie=spb; ShouldSetDeliveryOptions=False; ValidationToken=9552c564095f34dcba8285e3d2c84b67; StoreSubDomainCookie=0011; Store=0011; DeliveryOptions=Pickup; LastUpdate=2024-06-14; DontShowCookieNotification=False; qrator_jsid=1718388306.108.NcKXtQ5oVhYLPHe2-lnmistjh15419nhtjuf6agfe01vnc85g; cookiesession1=678B286F60CEF685914417AA98287BB3; ReviewedSkus=706256,068115,634877,058021,006128,665644,150743,003951,520163,206048,070908,671166'
                 }
 
         else: 
@@ -35,25 +37,35 @@ def get_price(url: str) -> str:
                 "Accept": "text/html"
                 }
         return requests.get(url, headers=headers).text
-        
-        
+
+
     def _get_price_value() -> str:
+
+        def process_price(price: str, replace_chars: dict, split_char: str) -> float:
+            for old, new in replace_chars.items():
+                price = price.replace(old, new)
+            return float(price.split(split_char)[0])
+    
         response = _get_html(url)
         bs = BeautifulSoup(response,"lxml")
+        domain = url.split('/')[2]
 
         try:
-            if (url.split('/')[2]=='www.vprok.ru') or (url.split('/')[2]=='agrobar.org') or (url.split('/')[2]=='spb.vkusvill.ru'):
-                # if url.split(lalala) in {www.vprok, www.yok}
-                price = bs.find(f1_dict[url.split('/')[2]], f2_dict[url.split('/')[2]]).text
-                return float(price.replace(',','.').split(' ',-1)[0])
-            
-            elif (url.split('/')[2]=='spb.tortomaster.ru') or (url.split('/')[2]=='lenta.com'):
-                price = bs.find(f1_dict[url.split('/')[2]], f2_dict[url.split('/')[2]]).text
-                return float(price.replace(',','.').replace(' ','').split('₽')[0])
-          
+            price = bs.find(f1_dict[domain], f2_dict[domain]).text
+            if domain in [
+                'www.vprok.ru',
+                'agrobar.org',
+                'spb.vkusvill.ru',
+            ]:
+                return  process_price(price, {',': '.', ' ': ''}, ' ')
+
+            elif domain in ['spb.tortomaster.ru', 'lenta.com']:
+                return process_price(price, {',': '.', ' ': ''}, '₽')
+
         except AttributeError: 
             return None
-    
+
+    sleep(waits)
     result = _get_price_value()
 
     return result

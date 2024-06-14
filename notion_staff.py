@@ -11,7 +11,7 @@ class NotionClient:
 
     def get_database_tag_ids(self) -> dict:
         """
-        Возвращаем ID всех столбцов по ID базы.
+        Return tags/properties ID's from database ID
         """
         data = self.client.databases.retrieve(self.database_id)["properties"]
 
@@ -20,7 +20,7 @@ class NotionClient:
 
     def get_database_page_ids(self) -> list:
         """
-        Возвращаем ID дочерних страниц базы по ID базы.
+        Return pages/main rows('title' id) ID's from database ID
         """
         rows = self.client.databases.query(database_id=self.database_id)["results"]
 
@@ -29,7 +29,7 @@ class NotionClient:
 
     def get_database_page_ids_and_properties(self) -> dict:
         """
-        Возвращаем ID дочерних страниц и столбцов/характеристик базы по ID базы.
+        Return pages ID's and tags/properties ID from database ID
         """
         pages = self.client.databases.query(database_id=self.database_id)["results"]
     
@@ -48,9 +48,7 @@ class NotionClient:
                                       tag_id: str, title: bool = False
                                       ) -> str:
         """
-        Берём ID дочерней страницы и ID тэга, получаем значение тэга
-        * ID дочерней страницы брать в get_database_row_ids()
-        * ID тэга брать в get_database_tag_ids()
+        Return exact value of property from choosed page
         """
         value = self.client.pages.properties.retrieve(page_id, tag_id)
         try:
@@ -60,7 +58,9 @@ class NotionClient:
 
 
     def change_prop_in_page(self, page_id: str, new_value: float, prop_id: str):
-        '''Изменение цены. Содержит точное указание на столбец по тегу'''
+        '''
+        Change number property
+        '''
         try:
             self.client.pages.update(
             page_id=page_id,

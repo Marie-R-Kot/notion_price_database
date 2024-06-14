@@ -3,7 +3,7 @@ from requests_price import *
 from notion_staff import *
 import os
 
-os.system("cls" if os.name == "nt" else "clear")  # clear terminal window
+os.system("cls" if os.name == "nt" else "clear")
 
 TOKEN = ""
 database_url = '' 

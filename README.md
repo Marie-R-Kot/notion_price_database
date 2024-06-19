@@ -12,7 +12,8 @@ Program contains two implemented modules and example of its usage for parsing pr
 
 ### Preparation
 Before try to run example you need to create a Notion database and fill it with products, its price you want to know. 
-Need to create at least three columns. First - title will  ce created automatically, while you create database, you may fill it with name of products. For each row in this column Notion will create a new page. Further information from this column will be indicated by pages. 
+Your database may have different view. It changes in settings - layout. We will work with table view
+Need to create at least three columns. First - title will be created automatically, while you create database, you may fill it with name of products. For each row in this column Notion will create a new page. Further information from this column will be indicated by pages. 
 Second column will have property name "url" and will contains link to parsed product. Third column will have property name "Price" and will be filled with parsed price later
 ![](/assets/images/electrocat.png)
 

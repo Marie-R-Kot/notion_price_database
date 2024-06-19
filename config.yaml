@@ -1,0 +1,6 @@
+#Please check README.md Configuration information to fill blank spaces
+token : "secret_..."
+database_url : 'https://www.notion.so/your notion name/link to database view'
+property_to_change : "Price"
+user_agent : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+lenta_cookies : ''
